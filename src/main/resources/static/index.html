@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alocação de Recursos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark mb-3">
+  <div class="container">
+    <span class="navbar-brand">Alocação de Recursos</span>
+    <span id="whoami" class="text-light small"></span>
+    <button id="logout" class="btn btn-sm btn-outline-light d-none">Sair</button>
+  </div>
+</nav>
+
+<main class="container pb-5">
+  <div id="alert" class="alert d-none" role="alert" aria-live="polite"></div>
+
+  <section id="login" class="card p-3 mx-auto" style="max-width: 420px">
+    <h1 class="h5">Entrar</h1>
+    <form id="loginForm">
+      <label class="form-label" for="user">Usuário</label>
+      <input id="user" class="form-control mb-2" autocomplete="username" required>
+      <label class="form-label" for="pass">Senha</label>
+      <input id="pass" type="password" class="form-control mb-3" autocomplete="current-password" required>
+      <button class="btn btn-primary w-100">Entrar</button>
+    </form>
+  </section>
+
+  <section id="app" class="d-none">
+    <ul class="nav nav-tabs mb-3" id="tabs">
+      <li class="nav-item"><button class="nav-link active" data-tab="search">Buscar e reservar</button></li>
+      <li class="nav-item"><button class="nav-link" data-tab="reservations">Reservas</button></li>
+      <li class="nav-item admin-only d-none"><button class="nav-link" data-tab="admin">Cadastrar recurso</button></li>
+    </ul>
+
+    <div id="tab-search">
+      <form id="searchForm" class="card p-3 mb-3">
+        <div class="row g-2">
+          <div class="col-6 col-md-2"><label class="form-label" for="fType">Tipo</label>
+            <select id="fType" class="form-select"><option value="">Todos</option><option>SALA</option><option>PROFESSOR</option><option>MATERIAL</option></select></div>
+          <div class="col-6 col-md-2"><label class="form-label" for="fCap">Capacidade mín.</label>
+            <input id="fCap" type="number" min="1" class="form-control"></div>
+          <div class="col-6 col-md-2"><label class="form-label" for="fLoc">Localização</label>
+            <input id="fLoc" class="form-control"></div>
+          <div class="col-6 col-md-2"><label class="form-label" for="fComp">Competência</label>
+            <input id="fComp" class="form-control"></div>
+          <div class="col-6 col-md-2"><label class="form-label" for="fFrom">Início</label>
+            <input id="fFrom" type="datetime-local" class="form-control"></div>
+          <div class="col-6 col-md-2"><label class="form-label" for="fTo">Término</label>
+            <input id="fTo" type="datetime-local" class="form-control"></div>
+        </div>
+        <button class="btn btn-primary mt-3 align-self-start">Pesquisar</button>
+        <small class="text-muted mt-2">Informando início e término, só aparecem recursos livres nesse horário.</small>
+      </form>
+
+      <div class="card p-3 mb-3">
+        <div class="table-responsive">
+          <table class="table table-sm align-middle mb-0">
+            <thead><tr><th></th><th>Nome</th><th>Tipo</th><th>Local</th><th>Cap.</th><th>Competências</th><th>Restrito</th></tr></thead>
+            <tbody id="resourceRows"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <form id="reserveForm" class="card p-3 admin-or-requester">
+        <h2 class="h6">Reservar os recursos selecionados no horário pesquisado</h2>
+        <label class="form-label" for="purpose">Finalidade</label>
+        <input id="purpose" class="form-control mb-2" maxlength="255" required>
+        <button class="btn btn-success align-self-start">Solicitar reserva</button>
+      </form>
+    </div>
+
+    <div id="tab-reservations" class="d-none">
+      <div class="card p-3">
+        <div class="table-responsive">
+          <table class="table table-sm align-middle mb-0">
+            <thead><tr><th>#</th><th>Recursos</th><th>Início</th><th>Término</th><th>Status</th><th>Ações</th></tr></thead>
+            <tbody id="reservationRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-admin" class="d-none">
+      <form id="resourceForm" class="card p-3">
+        <div class="row g-2">
+          <div class="col-md-3"><label class="form-label" for="rType">Tipo</label>
+            <select id="rType" class="form-select"><option>SALA</option><option>PROFESSOR</option><option>MATERIAL</option></select></div>
+          <div class="col-md-5"><label class="form-label" for="rName">Nome</label><input id="rName" class="form-control" required maxlength="120"></div>
+          <div class="col-md-4"><label class="form-label" for="rLoc">Localização</label><input id="rLoc" class="form-control" maxlength="120"></div>
+          <div class="col-md-3"><label class="form-label" for="rCap">Capacidade</label><input id="rCap" type="number" min="1" class="form-control"></div>
+          <div class="col-md-6"><label class="form-label" for="rComp">Competências</label><input id="rComp" class="form-control" maxlength="300"></div>
+          <div class="col-md-3 d-flex align-items-end"><div class="form-check"><input id="rRestricted" type="checkbox" class="form-check-input"><label class="form-check-label" for="rRestricted">Exige aprovação</label></div></div>
+        </div>
+        <button class="btn btn-primary mt-3 align-self-start">Cadastrar</button>
+      </form>
+    </div>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

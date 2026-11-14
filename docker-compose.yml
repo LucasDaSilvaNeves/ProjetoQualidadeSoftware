@@ -1,0 +1,6 @@
+# MongoDB para desenvolvimento local (sem autenticação: use só na sua máquina).
+services:
+  db:
+    image: mongo:7
+    ports:
+      - "27017:27017"

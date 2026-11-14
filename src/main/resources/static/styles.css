@@ -1,0 +1,7 @@
+body { background: #f6f7f9; }
+.card { border: 0; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.status-SOLICITADA { background: #ffc107; color: #000; }
+.status-APROVADA { background: #0d6efd; }
+.status-EM_USO { background: #6f42c1; }
+.status-CONCLUIDA { background: #198754; }
+.status-REJEITADA, .status-CANCELADA, .status-NAO_COMPARECEU { background: #6c757d; }
